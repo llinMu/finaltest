@@ -1,0 +1,38 @@
+package com.cart.servlet;
+
+import com.dao.ProductDao;
+import com.data.OrderItem;
+import com.data.Product;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+public class OrderItemDeleteServlet extends HttpServlet {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=utf-8");
+        String name = request.getParameter("name");
+
+
+        List<OrderItem> ois = (List<OrderItem>) request.getSession().getAttribute("ois");
+
+        for (OrderItem orderItem : ois) {
+            String name1 = orderItem.getProduct().getName();
+            if (name .equals(orderItem.getProduct().getName()) ) {
+                boolean remove = ois.remove(orderItem);
+                if (!remove)
+                    response.getWriter().write("删除失败");
+                response.getWriter().write("删除成功");
+                return;
+            }
+        }
+    }
+
+}

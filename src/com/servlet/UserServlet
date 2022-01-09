@@ -1,0 +1,22 @@
+package com.servlet;
+
+import com.dao.UserDao;
+import com.data.User;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class UserServlet extends HttpServlet {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+        User user = new UserDao().getUser(name, password);
+        if (null != user) {
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect("listProduct");
+        } else
+            response.sendRedirect("login.jsp");
+    }
+}

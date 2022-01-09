@@ -1,0 +1,27 @@
+package com.servlet;
+
+import com.dao.ProductDao;
+import com.data.Product;
+import com.data.User;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
+public class ProductServlet extends HttpServlet {
+    public void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        User user = (User)request.getSession().getAttribute("user");
+        List<Product> products = new ProductDao().queryProduct();
+        request.setAttribute("products", products);
+        if (null != user) {
+            request.getRequestDispatcher("WEB-INF/jsp/listProduct.jsp").forward(request, response);
+        } else
+            response.sendRedirect("login.jsp");
+
+
+    }
+}
